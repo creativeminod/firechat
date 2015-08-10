@@ -1,0 +1,33 @@
+#chat-wrapper {
+	width: 320px;
+	height: 500px;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background: #fff;
+	padding-bottom: 6px;
+}
+#chat-wrapper.collapse {
+	height: 30px;
+	padding-bottom: 0;
+}
+#chat-header {
+	display: block;
+	background: #23282D;
+	color: #eee;
+	font-weight: bold;
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 5px;
+}
+#chat-wrapper.message-add #chat-header {
+	color: #ffc033;
+}
+#firechat-wrapper {
+	border: 1px solid #ddd;
+	border-top: 0;
+	padding: 0 10px;
+}
+.message-self .name {
+	color: #e00;
+}
