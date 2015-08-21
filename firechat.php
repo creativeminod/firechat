@@ -1,12 +1,14 @@
 <?php
 /*
-Plugin Name: Firechat for WordPress
+Plugin Name: Firechat
 Plugin URI: http://www.deluxeblogtips.com
 Description: Real-time chat for WordPress
 Version: 1.0.0
 Author: Rilwis
 Author URI: http://www.deluxeblogtips.com
 */
+
+defined( 'ABSPATH' ) || exit;
 
 if ( is_admin() )
 {
@@ -20,15 +22,6 @@ if ( is_admin() )
 	}
 	require_once FIRECHAT_DIR . 'inc/admin/settings.php';
 
-	// Chat page
-	if ( ! class_exists( 'JWT' ) )
-	{
-		require_once FIRECHAT_DIR . 'lib/JWT.php';
-	}
-	if ( ! class_exists( 'Services_FirebaseTokenGenerator' ) )
-	{
-		require_once FIRECHAT_DIR . 'lib/FirebaseToken.php';
-	}
 	require_once FIRECHAT_DIR . 'inc/admin/chat.php';
 	new FireChat_Chat;
 }

@@ -13,8 +13,9 @@ jQuery( function ( $ )
 	function toggleChat()
 	{
 		var $firechat = $( '#firechat-wrapper' );
-		$( '#chat-header' ).on( 'click', function ()
+		$( '#chat-header' ).on( 'click', function ( e )
 		{
+			e.preventDefault();
 			if ( $chat.hasClass( 'collapse' ) )
 			{
 				$chat.removeClass( 'message-add' );
@@ -30,8 +31,11 @@ jQuery( function ( $ )
 	 */
 	function initFirechat()
 	{
-		var ref = new Firebase( Chat.firebaseUrl );
-		ref.authWithCustomToken( Chat.token, function ( error, authData )
+		var ref = new Firebase( Chat.firebaseUrl ),
+			now = new Date();
+
+		now = now.getTime();
+		ref.authWithCustomToken( Chat.token, function ( error )
 		{
 			if ( error )
 			{
@@ -45,8 +49,12 @@ jQuery( function ( $ )
 				chat.resumeSession();
 			} );
 
-			chat.on( 'message-add', function ()
+			chat.on( 'message-add', function ( roomId, message )
 			{
+				if ( message.timestamp < now )
+				{
+					return;
+				}
 				sound.play();
 				if ( $chat.hasClass( 'collapse' ) )
 				{

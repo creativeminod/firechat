@@ -29,8 +29,19 @@ class FireChat_Chat
 
 		wp_enqueue_script( 'chat', FIRECHAT_URL . 'js/admin/chat.js', array( 'firechat' ), '1.0.0', true );
 
-		$user     = wp_get_current_user();
-		$option   = get_option( 'firechat', array( 'url' => '', 'secret' => '' ) );
+		$user   = wp_get_current_user();
+		$option = get_option( 'firechat', array( 'url' => '', 'secret' => '' ) );
+
+		// Add Firechat library
+		if ( ! class_exists( 'JWT' ) )
+		{
+			require_once FIRECHAT_DIR . 'lib/JWT.php';
+		}
+		if ( ! class_exists( 'Services_FirebaseTokenGenerator' ) )
+		{
+			require_once FIRECHAT_DIR . 'lib/FirebaseToken.php';
+		}
+
 		$tokenGen = new Services_FirebaseTokenGenerator( $option['secret'] );
 		$token    = $tokenGen->createToken( array( 'uid' => 'user-' . $user->ID ), array( 'admin' => current_user_can( 'manage_options' ) ) );
 		wp_localize_script( 'chat', 'Chat', array(
@@ -50,11 +61,11 @@ class FireChat_Chat
 	public function show()
 	{
 		?>
-		<div id="chat-wrapper">
+		<div id="chat-wrapper" class="collapse">
 			<a href="#" id="chat-header">
 				<i class="dashicons dashicons-format-status"></i> <?php _e( 'Chat', 'firechat' ); ?>
 			</a>
-			<div id="firechat-wrapper"></div>
+			<div id="firechat-wrapper" class="hidden"></div>
 		</div>
 		<?php
 	}
